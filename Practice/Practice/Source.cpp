@@ -35,6 +35,30 @@ int* deleteWithInd(int*& arr, int& size, int x) {
 
 }
 
+int* deleteWithValue(int*& arr, int& size, int x) {
+
+	for (int i = 0; i < size; ++i) {
+
+		if (arr[i] == x) {
+
+			int temp = i;
+			for (int j = temp; j < size - 1; ++j) {
+
+				arr[j] = arr[j + 1];
+
+			}
+			--size;
+			arr = (int*)realloc(arr, size * sizeof(int));
+			--i;
+
+		}
+
+	}
+
+	return arr;
+
+}
+
 void print(int* arr, int& size) {
 
 	cout << "Получившийся массив: ";
@@ -76,5 +100,10 @@ int main() {
 
 	}
 	else cout << "Некорректное значение" << endl;
+
+	cout << "Задание 4: " << endl;
+	cout << "Введите значение, которое хотите удалить из массива: ";
+	cin >> x;
+	print(deleteWithValue(arr, size, x), size);
 
 }
