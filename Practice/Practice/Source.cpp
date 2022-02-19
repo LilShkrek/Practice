@@ -21,6 +21,20 @@ int* task2(int*& arr, int& size, int x) {
 
 }
 
+int* deleteWithInd(int*& arr, int& size, int x) {
+
+	for (int i = x; i < size - 1; ++i) {    //Сдвиг влево
+
+		arr[i] = arr[i + 1];
+
+	}
+
+	--size;
+	arr = (int*)realloc(arr, size * sizeof(int));
+	return arr;
+
+}
+
 void print(int* arr, int& size) {
 
 	cout << "Получившийся массив: ";
@@ -33,6 +47,8 @@ int main() {
 
 	setlocale(LC_ALL, "Russian");
 	int size, x;
+
+	cout << "Задание 1: ";
 	cout << "Введите размер массива: ";
 	cin >> size;
 	int* arr = new int[size];
@@ -45,8 +61,20 @@ int main() {
 	}
 
 	print(arr, size);
+
+	cout << "Задание 2: " << endl;
 	cout << "Введите элемент, который хотите добавить в конец массива: ";
 	cin >> x;
 	print(task2(arr, size, x), size);
+
+	cout << "Задание 3: " << endl;
+	cout << "Введите индекс элемента, который хотите удалить: ";
+	cin >> x;
+	if (x < size) {
+
+		print(deleteWithInd(arr, size, x), size);
+
+	}
+	else cout << "Некорректное значение" << endl;
 
 }
