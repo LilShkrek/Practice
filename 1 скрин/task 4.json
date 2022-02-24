@@ -1,0 +1,75 @@
+{
+    "branches": {
+        "main": {
+            "remoteTrackingBranchID": null,
+            "remote": false,
+            "target": "C3",
+            "id": "main",
+            "type": "branch"
+        },
+        "bugFix": {
+            "remoteTrackingBranchID": null,
+            "remote": false,
+            "target": "C2'",
+            "id": "bugFix",
+            "type": "branch"
+        }
+    },
+    "commits": {
+        "C0": {
+            "type": "commit",
+            "parents": [],
+            "author": "Peter Cottle",
+            "createTime": "Thu Feb 24 2022 22:23:37 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C0",
+            "rootCommit": true
+        },
+        "C1": {
+            "type": "commit",
+            "parents": [
+                "C0"
+            ],
+            "author": "Peter Cottle",
+            "createTime": "Thu Feb 24 2022 22:23:37 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C1"
+        },
+        "C2": {
+            "type": "commit",
+            "parents": [
+                "C1"
+            ],
+            "author": "Peter Cottle",
+            "createTime": "Thu Feb 24 2022 22:30:00 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C2"
+        },
+        "C3": {
+            "type": "commit",
+            "parents": [
+                "C1"
+            ],
+            "author": "Peter Cottle",
+            "createTime": "Thu Feb 24 2022 22:30:16 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C3"
+        },
+        "C2'": {
+            "type": "commit",
+            "parents": [
+                "C3"
+            ],
+            "author": "Peter Cottle",
+            "createTime": "Thu Feb 24 2022 22:30:43 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C2'"
+        }
+    },
+    "tags": {},
+    "HEAD": {
+        "id": "HEAD",
+        "target": "bugFix",
+        "type": "general ref"
+    }
+}

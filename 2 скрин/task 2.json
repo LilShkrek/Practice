@@ -1,0 +1,113 @@
+{
+    "branches": {
+        "main": {
+            "remoteTrackingBranchID": null,
+            "remote": false,
+            "target": "C3",
+            "id": "main",
+            "type": "branch"
+        },
+        "o/main": {
+            "remoteTrackingBranchID": null,
+            "remote": false,
+            "target": "C1",
+            "id": "o/main",
+            "type": "branch"
+        }
+    },
+    "commits": {
+        "C0": {
+            "type": "commit",
+            "parents": [],
+            "author": "Peter Cottle",
+            "createTime": "Fri Feb 25 2022 00:00:22 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C0",
+            "rootCommit": true
+        },
+        "C1": {
+            "type": "commit",
+            "parents": [
+                "C0"
+            ],
+            "author": "Peter Cottle",
+            "createTime": "Fri Feb 25 2022 00:00:22 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C1"
+        },
+        "C3": {
+            "type": "commit",
+            "parents": [
+                "C1"
+            ],
+            "author": "Peter Cottle",
+            "createTime": "Fri Feb 25 2022 00:06:39 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C3"
+        },
+        "C4": {
+            "type": "commit",
+            "parents": [
+                "C1"
+            ],
+            "author": "Peter Cottle",
+            "createTime": "Fri Feb 25 2022 00:06:57 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C4"
+        }
+    },
+    "tags": {},
+    "HEAD": {
+        "target": "C4",
+        "id": "HEAD",
+        "type": "general ref"
+    },
+    "originTree": {
+        "branches": {
+            "main": {
+                "remoteTrackingBranchID": null,
+                "remote": false,
+                "target": "C2",
+                "id": "main",
+                "type": "branch"
+            }
+        },
+        "commits": {
+            "C0": {
+                "type": "commit",
+                "parents": [],
+                "author": "Peter Cottle",
+                "createTime": "Fri Feb 25 2022 00:00:23 GMT+0300 (Москва, стандартное время)",
+                "commitMessage": "Быстрый коммит. А надо!",
+                "id": "C0",
+                "rootCommit": true
+            },
+            "C1": {
+                "type": "commit",
+                "parents": [
+                    "C0"
+                ],
+                "author": "Peter Cottle",
+                "createTime": "Fri Feb 25 2022 00:00:23 GMT+0300 (Москва, стандартное время)",
+                "commitMessage": "Быстрый коммит. А надо!",
+                "id": "C1"
+            },
+            "C2": {
+                "type": "commit",
+                "parents": [
+                    "C1"
+                ],
+                "author": "Peter Cottle",
+                "createTime": "Fri Feb 25 2022 00:00:23 GMT+0300 (Москва, стандартное время)",
+                "commitMessage": "Быстрый коммит. А надо!",
+                "id": "C2"
+            }
+        },
+        "tags": {},
+        "HEAD": {
+            "target": "main",
+            "id": "HEAD",
+            "type": "general ref"
+        }
+    }
+}

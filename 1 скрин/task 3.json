@@ -1,0 +1,76 @@
+{
+    "branches": {
+        "main": {
+            "remoteTrackingBranchID": null,
+            "remote": false,
+            "target": "C4",
+            "id": "main",
+            "type": "branch"
+        },
+        "bugFix": {
+            "remoteTrackingBranchID": null,
+            "remote": false,
+            "target": "C2",
+            "id": "bugFix",
+            "type": "branch"
+        }
+    },
+    "commits": {
+        "C0": {
+            "type": "commit",
+            "parents": [],
+            "author": "Peter Cottle",
+            "createTime": "Thu Feb 24 2022 22:53:43 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C0",
+            "rootCommit": true
+        },
+        "C1": {
+            "type": "commit",
+            "parents": [
+                "C0"
+            ],
+            "author": "Peter Cottle",
+            "createTime": "Thu Feb 24 2022 22:53:43 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C1"
+        },
+        "C2": {
+            "type": "commit",
+            "parents": [
+                "C1"
+            ],
+            "author": "Peter Cottle",
+            "createTime": "Thu Feb 24 2022 22:58:15 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C2"
+        },
+        "C3": {
+            "type": "commit",
+            "parents": [
+                "C1"
+            ],
+            "author": "Peter Cottle",
+            "createTime": "Thu Feb 24 2022 22:58:30 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Быстрый коммит. А надо!",
+            "id": "C3"
+        },
+        "C4": {
+            "type": "commit",
+            "parents": [
+                "C3",
+                "C2"
+            ],
+            "author": "Peter Cottle",
+            "createTime": "Thu Feb 24 2022 22:58:38 GMT+0300 (Москва, стандартное время)",
+            "commitMessage": "Слияние branch \"bugFix\" в branch \"main\"",
+            "id": "C4"
+        }
+    },
+    "tags": {},
+    "HEAD": {
+        "id": "HEAD",
+        "target": "main",
+        "type": "general ref"
+    }
+}
