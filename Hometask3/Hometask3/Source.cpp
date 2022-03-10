@@ -16,7 +16,7 @@ using namespace std;
 
 typedef int* arr_t;
 
-void cleanmem(arr_t arr) {    //Очистка памяти
+void cleanmem(arr_t& arr) {    //Очистка памяти
 
 	free(arr);
 	arr = NULL;
@@ -28,8 +28,8 @@ void alloc(arr_t& arr, int size) {
 	arr = (int*)malloc(size * sizeof(int));
 	if (arr == NULL) {
 
-		cout << "ERROR" << endl;
-		cleanmem(arr);
+		cout << "ERROR. Malloc failed" << endl;
+		exit(0);
 
 	}
 
@@ -37,9 +37,20 @@ void alloc(arr_t& arr, int size) {
 
 void reallocation(arr_t& arr, int size) {   //Подаю изменённый size
 
-	arr_t temp = (int*)realloc(arr, size * sizeof(int));
-	if (temp == NULL) exit(1);
-	else arr = temp;
+	if (size == 0) cleanmem(arr);
+	else {
+
+		arr_t temp = (int*)realloc(arr, size * sizeof(int));
+		if (temp == NULL) {
+
+			cout << "ERROR. Realloc failed" << endl;
+			cleanmem(arr);
+			exit(1);
+
+		}
+		else arr = temp;
+
+	}
 
 }
 
@@ -161,6 +172,12 @@ int main() {
 			cin >> x;
 			print(deleteWithValue(arr, size, x), size);
 			break;
+
+		case 0:
+			break;
+
+		default:
+			cout << "Некорректный ввод. Попробуйте снова." << endl;
 
 		}
 
