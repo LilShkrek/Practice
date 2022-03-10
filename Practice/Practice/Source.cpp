@@ -72,7 +72,7 @@ int main() {
 	setlocale(LC_ALL, "Russian");
 	int size, x;
 
-	cout << "Задание 1: ";
+	cout << "Задание 1: " << endl;
 	cout << "Введите размер массива: ";
 	cin >> size;
 	int* arr = new int[size];
