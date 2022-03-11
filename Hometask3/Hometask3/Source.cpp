@@ -37,20 +37,15 @@ void alloc(arr_t& arr, int size) {
 
 void reallocation(arr_t& arr, int size) {   //Подаю изменённый size
 
-	if (size == 0) cleanmem(arr);
-	else {
+	arr_t temp = (int*)realloc(arr, size * sizeof(int));
+	if (temp == NULL && size != 0) {
 
-		arr_t temp = (int*)realloc(arr, size * sizeof(int));
-		if (temp == NULL) {
-
-			cout << "ERROR. Realloc failed" << endl;
-			cleanmem(arr);
-			exit(1);
-
-		}
-		else arr = temp;
+		cout << "ERROR. Realloc failed" << endl;
+		cleanmem(arr);
+		exit(0);
 
 	}
+	else arr = temp;
 
 }
 
