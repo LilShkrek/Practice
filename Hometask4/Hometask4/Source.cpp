@@ -177,13 +177,15 @@ void task4(stack_t& stack) {    // Поменять местами 2 верхних элемента
 		return;
 
 	}
-	top2 = popback(stack);  // Нижний элемент
+	top2 = popback(stack);  // Второй верхний элемент
 	if (success_code == POPBACK_FAIL_ERROR) {
 
 		success_code = TASK4_FAIL_ERROR;
 		return;
 
 	}
+
+	//cout << "Верхний элемент: " << top1 << " " << "Второй верхний элемент: " << top2 << endl;
 
 	pushback(stack, top1);
 	if (success_code == PUSHBACK_FAIL_ERROR) {
@@ -220,7 +222,7 @@ int task5(stack_t& stack) {  // Удалить самый нижний элемент стека (с его выводо
 			if (success_code == POPBACK_FAIL_ERROR) { 
 
 				success_code = TASK5_FAIL_ERROR;
-				return 0; //
+				return 123213; //
 
 			}
 
@@ -228,7 +230,7 @@ int task5(stack_t& stack) {  // Удалить самый нижний элемент стека (с его выводо
 			if (success_code == PUSHBACK_FAIL_ERROR) {
 
 				success_code = TASK5_FAIL_ERROR;
-				return 0; //
+				return 123213; //
 
 			}
 
@@ -238,7 +240,7 @@ int task5(stack_t& stack) {  // Удалить самый нижний элемент стека (с его выводо
 		if (success_code == POPBACK_FAIL_ERROR) {
 
 			success_code = TASK5_FAIL_ERROR;
-			return 0; //
+			return 123213; //
 
 		}
 
@@ -248,7 +250,7 @@ int task5(stack_t& stack) {  // Удалить самый нижний элемент стека (с его выводо
 			if (success_code == POPBACK_FAIL_ERROR) {
 
 				success_code = TASK5_FAIL_ERROR;
-				return 0; //
+				return 123213; //
 
 			}
 
@@ -256,13 +258,13 @@ int task5(stack_t& stack) {  // Удалить самый нижний элемент стека (с его выводо
 			if (success_code == PUSHBACK_FAIL_ERROR) {
 
 				success_code = TASK5_FAIL_ERROR;
-				return 0; //
+				return 123213; //
 
 			}
 
 		}
 
-		// TODO : cleanmem(temp_stack)
+		cleanmem(temp_stack);
 		return first;
 
 	}
@@ -310,6 +312,8 @@ void task6(stack_t& stack) {  // Поменять местами верхний и нижний элемент стека
 
 	}
 
+	//cout << "Верхний элемент стека: " << top << " Нижний элемент стека: " << first << endl;
+
 	pushback(stack, top);
 
 	while (!isempty(temp_stack)) {  // Переносим обратно
@@ -348,14 +352,14 @@ void task6(stack_t& stack) {  // Поменять местами верхний и нижний элемент стека
 
 	}
 
-	// TODO : cleanmem(temp_stack)
+	cleanmem(temp_stack);
 
 }
 
 int main() {
 
 	setlocale(LC_ALL, "Russian");
-	int menu, x;
+	int menu, x, top, first;
 
 	stack_t stack;
 
@@ -374,16 +378,17 @@ int main() {
 
 	}
 
+	cout << "Выберите действие\n" <<
+		"1 - Очистить стек (поочерёдно удаляются и выводятся все элементы)\n" <<
+		"2 - Добавить в стек\n" <<
+		"3 - Извлечь из стека верхушку (с её выводом)\n" <<
+		"4 - Поменять местами два верхних элемента (с их выводом)\n" <<
+		"5 - Удалить самый нижний элемент стека (с его выводом)\n" <<
+		"6 - Поменять местами верхний и нижний элемент стека (тоже с выводом)\n" <<
+		"0 - Выход из программы\n";
+
 	do {
 
-		cout << "Выберите действие\n" <<
-			"1 - Очистить стек (поочерёдно удаляются и выводятся все элементы)\n" <<
-			"2 - Добавить в стек\n" <<
-			"3 - Извлечь из стека верхушку (с её выводом)\n" <<
-			"4 - Поменять местами два верхних элемента (с их выводом)\n" <<
-			"5 - Удалить самый нижний элемент стека (с его выводом)\n" <<
-			"6 - Поменять местами верхний и нижний элемент стека (тоже с выводом)\n" <<
-			"0 - Выход из программы\n";
 		cin >> menu;
 
 		switch (menu) {
@@ -401,8 +406,9 @@ int main() {
 			break;
 
 		case 3:
-			cout << "Верхний элемент стека: " << popback(stack) << endl;
+			top = popback(stack);
 			if (success_code == POPBACK_FAIL_ERROR) cout << "Popback error" << endl;
+			else cout << "Верхний элемент стека: " << top << endl;
 			break;
 
 		case 4:
@@ -412,8 +418,9 @@ int main() {
 			break;
 
 		case 5:
-			cout << "Нижний элемент стека: " << task5(stack) << endl;
+			first = task5(stack);
 			if (success_code == TASK5_FAIL_ERROR) cout << "Task 5 failed" << endl;
+			else cout << "Нижний элемент стека: " << first << endl;
 			//print(stack);
 			break;
 
@@ -434,6 +441,6 @@ int main() {
 
 	} while (menu != 0);
 
-	//cleanmem(stack);
+	cleanmem(stack);
 
 }
