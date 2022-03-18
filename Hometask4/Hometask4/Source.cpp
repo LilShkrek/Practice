@@ -2,53 +2,21 @@
 
 using namespace std;
 
-#define OK_STATUS 1
-#define MALLOC_FAIL_ERROR -2
-#define REALLOC_FAIL_ERROR -3
-#define PEAK_FAIL_ERROR -4
-#define PUSHBACK_FAIL_ERROR -5
-#define POPBACK_FAIL_ERROR -6
-#define TASK4_FAIL_ERROR -7
-#define TASK5_FAIL_ERROR -8
-#define TASK6_FAIL_ERROR -9
-#define DESTROY_FAIL_ERROR -10
-
-int success_code;
-
 typedef int* arr_t;
 typedef struct arr {
 
-	arr_t ptr = NULL;
-	int size = 0;
+	int size;
+	arr_t ptr;
 
 }stack_t;
 
-int peak(stack_t stack) {   // Возвращает "верхушку" стека без удаления
+int peak(stack_t stack) {   //Возвращает "верхушку" стека без удаления
 
-	if (stack.size < 1) {
-
-		success_code = PEAK_FAIL_ERROR;
-		return -120321;   // Просто рандомное число. Оно не будет использоваться, т.к. сначала проверится success_code
-
-	}
-	else {
-
-		success_code = OK_STATUS;
-		return stack.ptr[stack.size - 1];
-
-	}
+	return stack.ptr[stack.size - 1]; //сделать проверку на размер
 
 }
 
-bool isempty(stack_t stack) {
-
-	int temp = peak(stack);
-	if (success_code == PEAK_FAIL_ERROR) return true;
-	return false;
-
-}
-
-void cleanmem(stack_t& stack) {   // Очистка памяти
+void cleanmem(stack_t& stack) {   //Очистка памяти
 
 	free(stack.ptr);
 	stack.ptr = NULL;
@@ -56,301 +24,184 @@ void cleanmem(stack_t& stack) {   // Очистка памяти
 
 }
 
-void reallocation(stack_t& stack) {   // Изменение размера стека
+void reallocation(stack_t& stack) {   //Изменение размера стека
 
-	arr_t temp = (int*)realloc(stack.ptr, stack.size * sizeof(int));
-	//int temp_size = sizeof(temp) / sizeof(temp[0]);
-	if (temp == NULL && stack.size != 0) {
-
-		success_code = REALLOC_FAIL_ERROR;
-		cleanmem(stack);
-
-	}
+	if (stack.size == 0) cleanmem(stack);
 	else {
 
-		stack.ptr = temp;
-		success_code = OK_STATUS;
+		arr_t temp = (int*)realloc(stack.ptr, stack.size * sizeof(int));
+		if (temp == NULL) {
+
+			cout << "ERROR. Realloc failed" << endl;
+			cleanmem(stack);
+			//exit(0);
+
+		}
+		else stack.ptr = temp;
 
 	}
 
 }
 
-//void alloc(arr_t& arr, int size) {    // Выделение памяти под массив
-//
-//	arr = (int*)malloc(size * sizeof(int));
-//	if (arr == NULL) {
-//
-//		success_code = MALLOC_FAIL_ERROR;
-//
-//	}else success_code = OK_STATUS;
-//
-//}
+void alloc(arr_t& arr, int size) {    //Выделение памяти под массив
 
-void pushback(stack_t& stack, int x) {   // Добавление элемента в стек
+	arr = (int*)malloc(size * sizeof(int));
+	if (arr == NULL) {
+
+		cout << "ERROR. Malloc failed" << endl;
+		exit(0);
+
+	}
+
+}
+
+void pushback(stack_t& stack, int x) {   //Добавление элемента в стек
 
 	++stack.size;
 	reallocation(stack);
-	if (success_code == REALLOC_FAIL_ERROR) {
-
-		--stack.size;
-		success_code = PUSHBACK_FAIL_ERROR;
-
-	}
-	else {
-
-		stack.ptr[stack.size - 1] = x;
-		success_code = OK_STATUS;
-
-	}
+	stack.ptr[stack.size - 1] = x;
 
 }
 
-int popback(stack_t& stack) {   // Удаляет верхушку и возвращает значение "верхушку"
+void popback(stack_t& stack) {   //Удаляет верхушку
 
-	int top = peak(stack);
-	if (success_code == PEAK_FAIL_ERROR) success_code = POPBACK_FAIL_ERROR;
+	//int top;
+
+	if (stack.size == 0) {
+
+		cout << "Error. Stack is already empty" << endl;
+		//exit(0);
+
+	}
 	else {
 
+		//cout << "Top element of stack: " << peak(stack) << endl;
+		//top = peak(stack);
 		--stack.size;
 		reallocation(stack);
-		if (success_code == REALLOC_FAIL_ERROR) {
-
-			++stack.size;
-			success_code = POPBACK_FAIL_ERROR;
-
-		}
-		else {
-
-			success_code = OK_STATUS;
-
-		}
 
 	}
 
-	return top;
-
 }
 
-void destroy(stack_t& stack) {   // Очистить стек (поочерёдно удаляются и выводятся все элементы)
+void destroy(stack_t& stack) {   //Очистить стек (поочерёдно удаляются и выводятся все элементы)
 
 	//cout << "DESTROOOY" << endl;
 	
-	while (!isempty(stack)) {
+	for (int i = stack.size; i > 0; --i) {   //Вывод в мейне
 
-		cout << popback(stack) << " ";
-		if (success_code == POPBACK_FAIL_ERROR) {
-
-			success_code = DESTROY_FAIL_ERROR;
-			break;
-
-		}
+		cout << peak(stack) << " ";
+		popback(stack);
 
 	}
+
 	cout << endl;
 
 }
 
-void print(stack_t stack) {   // Вывод размера стека и самого стека( по сути - destroy() )
+void print(stack_t stack) {   //Вывод размера стека и самого стека
 
-	while (!isempty(stack)) {
-
-		cout << popback(stack) << " ";
-		if (success_code == POPBACK_FAIL_ERROR) {
-
-			success_code = DESTROY_FAIL_ERROR;
-			break;
-
-		}
-
-	}
-	cout << endl;
-
-}
-
-void task4(stack_t& stack) {    // Поменять местами 2 верхних элемента
-
-	int top1, top2;
-	top1 = popback(stack);  // Верхний элемент
-	if (success_code == POPBACK_FAIL_ERROR) {
-
-		success_code = TASK4_FAIL_ERROR;
-		return;
-
-	}
-	top2 = popback(stack);  // Второй верхний элемент
-	if (success_code == POPBACK_FAIL_ERROR) {
-
-		success_code = TASK4_FAIL_ERROR;
-		return;
-
-	}
-
-	//cout << "Верхний элемент: " << top1 << " " << "Второй верхний элемент: " << top2 << endl;
-
-	pushback(stack, top1);
-	if (success_code == PUSHBACK_FAIL_ERROR) {
-
-		success_code = TASK4_FAIL_ERROR;
-		return;
-
-	}
-	pushback(stack, top2);
-	if (success_code == PUSHBACK_FAIL_ERROR) {
-
-		success_code = TASK4_FAIL_ERROR;
-		return;
-
-	}
-
-}
-
-int task5(stack_t& stack) {  // Удалить самый нижний элемент стека (с его выводом)
-
-	if (isempty(stack)) {
-
-		success_code = TASK5_FAIL_ERROR;
-		return 0;  //
-
-	}
+	if (stack.size == 0) cout << "Stack is empty" << endl;
 	else {
 
-		stack_t temp_stack;
+		cout << "Size: " << stack.size << endl;
+		for (int i = 0; i < stack.size; ++i) {
 
-		while (!isempty(stack)) {  // Перенос содержимого изначального стека во временный(он перевернётся)
-
-			int top = popback(stack);
-			if (success_code == POPBACK_FAIL_ERROR) { 
-
-				success_code = TASK5_FAIL_ERROR;
-				return 123213; //
-
-			}
-
-			pushback(temp_stack, top);
-			if (success_code == PUSHBACK_FAIL_ERROR) {
-
-				success_code = TASK5_FAIL_ERROR;
-				return 123213; //
-
-			}
+			cout << stack.ptr[i] << " ";
 
 		}
-
-		int first = popback(temp_stack);  // Удалили верхний элемент временного стека, т.е. нижний изначального
-		if (success_code == POPBACK_FAIL_ERROR) {
-
-			success_code = TASK5_FAIL_ERROR;
-			return 123213; //
-
-		}
-
-		while (!isempty(temp_stack)) {  // Переносим обратно
-
-			int top = popback(temp_stack);
-			if (success_code == POPBACK_FAIL_ERROR) {
-
-				success_code = TASK5_FAIL_ERROR;
-				return 123213; //
-
-			}
-
-			pushback(stack, top);
-			if (success_code == PUSHBACK_FAIL_ERROR) {
-
-				success_code = TASK5_FAIL_ERROR;
-				return 123213; //
-
-			}
-
-		}
-
-		cleanmem(temp_stack);
-		return first;
+		cout << endl;
 
 	}
 
 }
 
-void task6(stack_t& stack) {  // Поменять местами верхний и нижний элемент стека (тоже с выводом)
+void task4(stack_t& stack) {   
+
+	if (stack.size < 2) { //Так нельзя
+
+		cout << "Error. Not enough elements" << endl;
+		exit(0);
+
+	}else {
+
+		int top1, top2;
+		top1 = peak(stack);  //Верхний элемент
+		popback(stack);
+		top2 = peak(stack);  //Второй верхний элемент
+		popback(stack);
+		pushback(stack, top1);
+		pushback(stack, top2);
+
+	}
+
+}
+
+int task5(stack_t& stack) {
+
+	if (stack.size < 1) {
+
+		cout << "Error. Stack is empty" << endl;
+		exit(0);
+
+	}else {
+
+		arr_t arr1 = NULL;
+		alloc(arr1, 0);        //Должен принимать стек
+		stack_t temp_stack = { 0, arr1 };
+
+		for (int i = stack.size; i > 0; --i) {   //Перенос содержимого изначального стека во временный(он перевернётся)
+
+			pushback(temp_stack, peak(stack));  //цикл до ошибки
+			popback(stack);
+
+		}
+
+		int first = peak(temp_stack);
+		popback(temp_stack);  //Удалили верхний элемент временного стека, т.е. нижний изначального
+
+		for (int i = temp_stack.size; i > 0; --i) {  //цикл до ошибки
+
+			pushback(stack, peak(temp_stack));  
+			popback(temp_stack);
+
+		}
+
+		//cleanmem(temp_stack);
+
+		return first;
+
+	}//сделать реалок
+
+}
+
+void task6(stack_t& stack) {  //некорректно работает
 
 	int top = peak(stack);
-	if (success_code == PEAK_FAIL_ERROR) {
-
-		success_code = TASK6_FAIL_ERROR;
-		return; //
-
-	}
-
 	int first;
-	stack_t temp_stack;
 
-	while (!isempty(stack)) {  // Перенос содержимого изначального стека во временный(он перевернётся)
+	arr_t arr1 = NULL;
+	alloc(arr1, 0);
+	stack_t temp_stack = { 0, arr1 };
 
-		int top1 = popback(stack);
-		if (success_code == POPBACK_FAIL_ERROR) {
+	for (int i = stack.size; i > 0; --i) {
 
-			success_code = TASK6_FAIL_ERROR;
-			return; //
-
-		}
-
-		pushback(temp_stack, top1);
-		if (success_code == PUSHBACK_FAIL_ERROR) {
-
-			success_code = TASK6_FAIL_ERROR;
-			return; //
-
-		}
+		pushback(temp_stack, peak(stack));
+		popback(stack);
 
 	}
 
-	first = popback(temp_stack);
-	if (success_code == POPBACK_FAIL_ERROR) {
-
-		success_code = TASK6_FAIL_ERROR;
-		return; //
-
-	}
-
-	//cout << "Верхний элемент стека: " << top << " Нижний элемент стека: " << first << endl;
-
+	first = peak(temp_stack);
+	//popback(temp_stack);
 	pushback(stack, top);
 
-	while (!isempty(temp_stack)) {  // Переносим обратно
+	for (int i = temp_stack.size; i > 2; --i) {
 
-		int top1 = popback(temp_stack);
-		if (success_code == POPBACK_FAIL_ERROR) {
-
-			success_code = TASK6_FAIL_ERROR;
-			return; //
-
-		}
-
-		pushback(stack, top1);
-		if (success_code == PUSHBACK_FAIL_ERROR) {
-
-			success_code = TASK6_FAIL_ERROR;
-			return; //
-
-		}
+		pushback(stack, peak(temp_stack));
+		popback(temp_stack);
 
 	}
-
-	int k = popback(stack);
-	if (success_code == POPBACK_FAIL_ERROR) {
-
-		success_code = TASK6_FAIL_ERROR;
-		return; //
-
-	}
-
 	pushback(stack, first);
-	if (success_code == PUSHBACK_FAIL_ERROR) {
-
-		success_code = TASK6_FAIL_ERROR;
-		return; //
-
-	}
 
 	cleanmem(temp_stack);
 
@@ -359,9 +210,11 @@ void task6(stack_t& stack) {  // Поменять местами верхний и нижний элемент стека
 int main() {
 
 	setlocale(LC_ALL, "Russian");
-	int menu, x, top, first;
+	int menu, x;
 
-	stack_t stack;
+	arr_t arr = NULL;
+	alloc(arr, 0);
+	stack_t stack = { 0, arr };
 
 	cout << "Введите элементы стека" << endl;
 
@@ -369,12 +222,6 @@ int main() {
 
 		cin >> x;
 		pushback(stack, x);
-		if (success_code == PUSHBACK_FAIL_ERROR) {
-
-			cout << "NO MORE MEMORY!! STOP PLS!" << endl;
-			break;
-
-		}
 
 	}
 
@@ -386,60 +233,48 @@ int main() {
 		"5 - Удалить самый нижний элемент стека (с его выводом)\n" <<
 		"6 - Поменять местами верхний и нижний элемент стека (тоже с выводом)\n" <<
 		"0 - Выход из программы\n";
+	cin >> menu;
 
-	do {
+	switch (menu) {
 
-		cin >> menu;
+	case 1:
+		destroy(stack);
+		break;
 
-		switch (menu) {
+	case 2:
+		cout << "Введите элемент, который хотите добавить в стек: ";
+		cin >> x;
+		pushback(stack, x);
+		break;
 
-		case 1:
-			destroy(stack);
-			if (success_code == DESTROY_FAIL_ERROR) cout << "Destroy error" << endl;
-			break;
+	case 3:
+		cout << "Верхний элемент стека: " << peak(stack) << endl;
+		popback(stack);
+		break;
 
-		case 2:
-			cout << "Введите элемент, который хотите добавить в стек: ";
-			cin >> x;
-			pushback(stack, x);
-			if (success_code == PUSHBACK_FAIL_ERROR) cout << "Pushback error" << endl;
-			break;
+	case 4:
+		task4(stack);
+		print(stack);
+		break;
 
-		case 3:
-			top = popback(stack);
-			if (success_code == POPBACK_FAIL_ERROR) cout << "Popback error" << endl;
-			else cout << "Верхний элемент стека: " << top << endl;
-			break;
+	case 5:
+		cout << "Нижний элемент стека: " << task5(stack) << endl;
+		print(stack);
+		break;
 
-		case 4:
-			task4(stack);
-			if (success_code == TASK4_FAIL_ERROR) cout << "Task 4 failed" << endl;
-			//print(stack);
-			break;
+	case 6:
+		task6(stack);
+		print(stack);
+		break;
 
-		case 5:
-			first = task5(stack);
-			if (success_code == TASK5_FAIL_ERROR) cout << "Task 5 failed" << endl;
-			else cout << "Нижний элемент стека: " << first << endl;
-			//print(stack);
-			break;
+	case 0:
+		break;
 
-		case 6:
-			task6(stack);
-			if (success_code == TASK6_FAIL_ERROR) cout << "Task 6 failed" << endl;
-			//print(stack);
-			break;
+	default:
+		cout << "Введено некорректное значение. Попробуйте снова" << endl;
+		break;
 
-		case 0:
-			break;
-
-		default:
-			cout << "Введено некорректное значение. Попробуйте снова" << endl;
-			break;
-
-		}
-
-	} while (menu != 0);
+	}
 
 	cleanmem(stack);
 
