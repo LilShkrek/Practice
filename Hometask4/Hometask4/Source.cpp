@@ -163,9 +163,9 @@ void createcopy(stack_t stack, stack_t& new_stack) {	// Создание копии стека
 
 		}
 
-	}
+		success_code = OK_STATUS;
 
-	success_code = OK_STATUS;
+	}
 	
 }
 
