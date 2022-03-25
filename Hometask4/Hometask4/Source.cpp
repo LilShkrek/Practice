@@ -243,6 +243,7 @@ int task5(stack_t& stack) {  // Удалить самый нижний элемент стека (с его выводо
 		if (success_code == POPBACK_FAIL_ERROR) { 
 
 			cleanmem(new_stack);
+			cleanmem(temp_stack);
 			return 123213; //
 
 		}
