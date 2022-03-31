@@ -1,0 +1,6 @@
+﻿  Queue.cpp
+C:\Programming\C++\Practice\Hometask5\Hometask5\Queue.cpp(60,13): warning C4101: error: неиспользованная локальная переменная
+C:\Programming\C++\Practice\Hometask5\Hometask5\Queue.cpp(153,13): warning C4101: error: неиспользованная локальная переменная
+C:\Programming\C++\Practice\Hometask5\Hometask5\Queue.cpp(209,13): warning C4101: error: неиспользованная локальная переменная
+C:\Programming\C++\Practice\Hometask5\Hometask5\Queue.cpp(245,13): warning C4101: error: неиспользованная локальная переменная
+  Hometask5.vcxproj -> C:\Programming\C++\Practice\Hometask5\Debug\Hometask5.exe
