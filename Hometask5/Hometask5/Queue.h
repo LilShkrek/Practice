@@ -11,7 +11,9 @@ void Reallocation(queue_t&, int);
 void Enqueue(queue_t&, int);
 int Dequeue(queue_t&);
 void CreateCopy(queue_t, queue_t&);
+void PrintQueue(queue_t);
 
 void temp();
+void Destroy(queue_t&);
 
 #endif 

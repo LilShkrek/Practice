@@ -6,13 +6,11 @@ using namespace std;
 #define INIT_QUEUE 3
 #define INC_QUEUE 3
 
-#define OK_STATUS 1
 #define PEAK_FAIL_ERROR -1
 #define REALLOC_FAIL_ERROR -2
 #define ENQUEUE_FAIL_ERROR -3
 #define DEQUEUE_FAIL_ERROR -4
-#define DESTROY_FAIL_ERROR -5
-#define COPY_FAIL_ERROR -6
+#define COPY_FAIL_ERROR -5
 
 //int success_code;
 
@@ -240,6 +238,9 @@ void CreateCopy(queue_t old_q, queue_t& new_q) {
 			new_q.arr[i] = old_q.arr[i];
 
 		}
+		new_q.head = old_q.head;
+		new_q.size = old_q.size;
+		new_q.tail = old_q.tail;
 
 	}
 	catch (int error) {		// Ловим REALLOC_FAIL_ERROR
@@ -249,24 +250,6 @@ void CreateCopy(queue_t old_q, queue_t& new_q) {
 	}
 
 }
-
-//void Destroy(queue_t& q) {
-//
-//	while (!IsEmpty(q)) {
-//
-//		cout << Dequeue(q) << " ";
-//		if (success_code == DEQUEUE_FAIL_ERROR) {
-//
-//			success_code = DESTROY_FAIL_ERROR;
-//			break;
-//
-//		}
-//
-//	}
-//
-//	cout << endl;
-//
-//}
 
 void PrintQueue(queue_t q) {
 
@@ -280,19 +263,260 @@ void PrintQueue(queue_t q) {
 
 }
 
-void temp(){
 
-	queue_t q;
-	int x;
-	while (cin.peek() != '\n') {
+//======================================================
 
-		cin >> x;
-		Enqueue(q, x);
+void ThrowError(int error) {
+
+	switch (error) {
+
+	case PEAK_FAIL_ERROR:
+		throw PEAK_FAIL_ERROR;
+		break;
+
+	case REALLOC_FAIL_ERROR:
+		throw REALLOC_FAIL_ERROR;
+		break;
+
+	case ENQUEUE_FAIL_ERROR:
+		throw ENQUEUE_FAIL_ERROR;
+		break;
+
+	case DEQUEUE_FAIL_ERROR:
+		throw DEQUEUE_FAIL_ERROR;
+		break;
+
+	case COPY_FAIL_ERROR:
+		throw COPY_FAIL_ERROR;
+		break;
 
 	}
 
-	Dequeue(q);
+}
 
-	PrintQueue(q);
+void PrintError(int error) {
+
+	switch (error) {
+
+	case PEAK_FAIL_ERROR:
+		cout << "Peak failed\n";
+		break;
+
+	case REALLOC_FAIL_ERROR:
+		cout << "Realloc failed\n";
+		break;
+
+	case ENQUEUE_FAIL_ERROR:
+		cout << "Enqueue failed\n";
+		break;
+
+	case DEQUEUE_FAIL_ERROR:
+		cout << "Dequeue failed\n";
+		break;
+
+	case COPY_FAIL_ERROR:
+		cout << "Copy failed\n";
+		break;
+
+	}
+
+}
+
+void Destroy(queue_t& q) {
+
+	try {
+
+		while (!IsEmpty(q)) {
+
+			cout << Dequeue(q) << " ";
+
+		}
+
+		cout << endl;
+
+	}
+	catch (int error) {		// Ловим DEQUEUE_FAIL_ERROR
+
+		throw DEQUEUE_FAIL_ERROR;
+
+	}
+
+}
+
+void task4(queue_t& q) {
+
+	queue_t new_q, copy_q;
+
+	try {
+
+		CreateCopy(q, copy_q);
+
+		while (!IsEmpty(copy_q)) {
+
+			Enqueue(new_q, Dequeue(copy_q));
+			Enqueue(new_q, 0);
+
+		}
+
+		CreateCopy(new_q, q);
+		CleanMem(new_q);
+		//CleanMem(copy_q);
+
+	}
+	catch (int error) {
+
+		CleanMem(new_q);
+		//CleanMem(copy_q);
+		ThrowError(error);
+
+	}
+
+}
+
+void task5(queue_t& q) {
+
+	queue_t new_q, copy_q;
+
+	try {
+
+		CreateCopy(q, copy_q);
+
+		while (!IsEmpty(copy_q)) {
+
+			int head = Dequeue(copy_q);
+			if (!IsEmpty(copy_q)) Enqueue(new_q, head);
+
+		}
+
+		CreateCopy(new_q, q);
+		CleanMem(new_q);
+
+	}
+	catch (int error) {
+
+		CleanMem(new_q);
+		ThrowError(error);
+
+	}
+
+}
+
+void task6(queue_t& q) {
+
+	queue_t new_q, copy_q;
+
+	try {
+
+		CreateCopy(q, copy_q);
+
+		int tail, head = Peak(copy_q);
+
+		while (!IsEmpty(copy_q)) {
+
+			tail = Dequeue(copy_q);
+
+		}
+
+		CreateCopy(q, copy_q);
+		Enqueue(new_q, tail);
+		task5(copy_q);		// Удалили "хвост" очереди
+		Dequeue(copy_q);	// Удалили "голову" очереди
+
+		while (!IsEmpty(copy_q)) {
+
+			Enqueue(new_q, Dequeue(copy_q));
+
+		}
+
+		Enqueue(new_q, head);
+		CreateCopy(new_q, q);
+		CleanMem(new_q);
+		
+	}
+	catch (int error) {
+
+		CleanMem(new_q);
+		ThrowError(error);
+
+	}
+
+}
+
+void temp(){
+
+	queue_t q;
+	int x, menu;
+
+	try {
+
+		cout << "Введите элементы очереди\n";
+
+		while (cin.peek() != '\n') {
+
+			cin >> x;
+			Enqueue(q, x);
+
+		}
+
+		//Dequeue(q);
+		//task4(q);
+		//task5(q);
+		/*task6(q);
+		PrintQueue(q);
+		Destroy(q);*/
+
+		do {
+
+			cout << "\nВыберите действие:\n1 - Очистить очередь\n2 - Добавить в очередь\n3 - Извлечь из очереди\n\
+4 - После каждого элемента элемента очереди поставить 0. Пример: 1, 2, 3 -> 1, 0, 2, 0, 3, 0\n\
+5 - Удалить последний элемент (хвост)\n6 - Поменять местами первый и последний элемент очереди\n0 - Выйти из программы\n";
+			cin >> menu;
+
+			switch (menu) {
+
+			case 1:
+				Destroy(q);
+				break;
+
+			case 2:
+				cout << "Введите элемент, который хотите добавить: ";
+				cin >> x;
+				Enqueue(q, x);
+				PrintQueue(q);
+				break;
+
+			case 3:
+				cout << "\"Голова\" очереди - " << Dequeue(q) << endl;
+				PrintQueue(q);
+				break;
+
+			case 4:
+				task4(q);
+				PrintQueue(q);
+				break;
+
+			case 5:
+				task5(q);
+				PrintQueue(q);
+				break;
+
+			case 6:
+				task6(q);
+				PrintQueue(q);
+				break;
+
+			default:
+				cout << "Введено некорректное значение, попробуйте снова\n";
+
+			}
+
+		} while (menu != 0);
+
+	}
+	catch (int error) {
+
+		PrintError(error);
+
+	}
 
 }
