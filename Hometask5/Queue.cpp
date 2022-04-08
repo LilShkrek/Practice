@@ -97,7 +97,7 @@ void Enqueue(queue_t& q, int num) {		// Adding to the end of the queue
 
 			Reallocation(q, q.size + INC_QUEUE);
 			
-			if (q.tail == q.head - 1) {	
+			if (q.tail == q.head - 1) {
 
 				for (int j = 0; j < INC_QUEUE; ++j) {
 
@@ -111,6 +111,8 @@ void Enqueue(queue_t& q, int num) {		// Adding to the end of the queue
 
 				}
 
+                q.head += INC_QUEUE;
+
 			}
 
 		}
@@ -123,6 +125,9 @@ void Enqueue(queue_t& q, int num) {		// Adding to the end of the queue
 
 		q.tail = (q.tail + 1) % q.size;		// Moving the "tail's" position
 		q.arr[q.tail] = num;	// Changing the value of the "tail"
+
+//        cout << "THAT'S A HEAD " << q.head << endl;
+//        cout << "THAT'S A TAIL " << q.tail << endl;
 
 		if (q.head == -1) q.head = 0;
 

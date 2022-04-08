@@ -89,9 +89,12 @@ void task4(queue_t& q) {
     try {
 
         CreateCopy(q, copy_q);
+//        cout << "HEAD1 " << copy_q.head << endl;
 
         while (!IsEmpty(copy_q)) {
 
+//            cout << "PEAK " << Peak(copy_q) << endl;
+//            cout << "HEAD " << copy_q.head << endl;
             Enqueue(new_q, Dequeue(copy_q));
             Enqueue(new_q, 0);
 
@@ -239,6 +242,13 @@ int main() {
                 case 6:
                     task6(q);
                     PrintQueue(q);
+                    break;
+
+                /*case 7:
+                    cout << "HEAD" << q.head << endl;
+                    cout << "TAIL" << q.tail << endl;*/
+
+                case 0:
                     break;
 
                 default:
