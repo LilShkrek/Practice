@@ -1,0 +1,3 @@
+C:/Programming/C++/Practice/Hometask7/cmake-build-debug/CMakeFiles/Hometask7.dir
+C:/Programming/C++/Practice/Hometask7/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Programming/C++/Practice/Hometask7/cmake-build-debug/CMakeFiles/rebuild_cache.dir
