@@ -15,6 +15,10 @@ int main() {
 //    cout << FindMin(tree)->value << endl;
 //    DeleteByValue(tree, 7);
 
+    auto a = &tree;
+    cout << "AAA " << a << endl;
+
+
     cout << "Enter tree elements: ";
     while(cin.peek() != '\n') {
 

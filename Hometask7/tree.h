@@ -5,6 +5,8 @@
 #ifndef HOMETASK7_TREE_H
 #define HOMETASK7_TREE_H
 
+#include "Queue.h"
+
 struct tree_node;
 typedef struct tree_node tree_node_t;
 

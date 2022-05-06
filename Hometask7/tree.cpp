@@ -33,14 +33,14 @@ void Insert(tree_node_t*& current_tree_node, int value) {
 
 }
 
-tree_node_t* FindMin(tree_node_t* current_tree_node) {      //ÏÎÄÀ¨Ì ÑÍÀ×ÀËÀ ÏÐÀÂÓÞ ÂÅÒÂÜ!!!
+tree_node_t* FindMin(tree_node_t* current_tree_node) {
 
     if(current_tree_node->left != NULL) return FindMin(current_tree_node->left);
     return current_tree_node;
 
 }
 
-void DeleteByValue(tree_node_t*& current_tree_node, int value) {        // ÏÎÄÀ¨Ì ÊÎÐÅÍÜ ÑÍÀ×ÀËÀ!!!
+void DeleteByValue(tree_node_t*& current_tree_node, int value) {
 
     if(current_tree_node->value == value) {         // Deleting root
 
@@ -112,6 +112,20 @@ void DeleteByValue(tree_node_t*& current_tree_node, int value) {        // ÏÎÄÀ¨
             DeleteByValue(current_tree_node->right, value);     // Moving to the next element
 
         }
+
+    }
+
+}
+
+void PrintInWidth(tree_node_t*& current_tree_node) {
+
+    queue_t q;
+    Enqueue(q, current_tree_node);
+
+    while(!IsEmpty(q)) {
+
+        Enqueue(q, current_tree_node->left);
+        std::cout << Dequeue(q)->value << " ";
 
     }
 
